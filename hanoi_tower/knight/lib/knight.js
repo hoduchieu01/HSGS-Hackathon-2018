@@ -10,7 +10,7 @@ const Knight =
 	*/
 	default(props = { row: 3, col: 4 }) 
 	{
-		var Board = new Array();
+		const Board = new Array();
 		for (let i = 0 ; i < props.row; i++) 
 		{
 			Board[i] = new Array();
@@ -19,6 +19,9 @@ const Knight =
 				Board[i][j] = 0;
 			}
 		}
+		Board[1][0]=1;
+		Board[0][2]=2;
+		Board[2][2]=2;
 		return { Board };
 	},
 
@@ -27,18 +30,22 @@ const Knight =
 		async move(state, { x, y }) 
 		{
 			// Check if will be in the board after the move in the board
-			if ((x < 0) || (2 < x) || (y < 0) || (3 < y)) 
+			if ((x < 0) || (state.Board.length <= x) || (y < 0) || (state.Board[0].length < y)) 
 			{
 				throw new Error("Your Knight is going outside the Board, sir!");
 			}
 			// Locate the Knight
+			const Board = state.Board.map(v => v.slice());
+			//console.log(Board);
 			var p = -1, q = -1;
 			for(let i = 0; i < Board.length; i++)
 			{
-				for(let j = 0; j < Board[i].lenght; j++)
+				for(let j = 0; j < Board[i].length; j++)
 				{
 					if(Board[i][j] === 1) 
 					{
+						console.log(i);
+						console.log(j);
 						// Check if there is multiple Knights on the Board. Plz for fuck sake.
 						if(p !== -1 || q !== -1)
 						{
@@ -56,16 +63,24 @@ const Knight =
 			if(p === -1 && q === -1) throw new Error("Can't find any Knights on the Board, sir!");
 			if(Board[x][y] === 2)
 			{
-				// The move is lit
-				Board[x][y] === 1;
-				Board[p][q] === 3;
+				// The move is legit
+				//Board[x][y] === 1;
+				//Board[p][q] === 3;
 				for(let i = 0; i < Board.length; i++)
 				{
 					for(let j = 0; j < Board[i].length; j++)
 					{
-						if(Board[i][j] === 2 || Board[i][j] === 0)
+						if(i == x && j == y)
 						{
-							if((Math.abs(i - x) === 1 && Math.abs(j - x) === 2) || (Math.abs(i - x) === 2 && Math.abs(j - x) === 1))
+							Board[i][j] = 1;
+						}
+						else if(i == p && j == q)
+						{
+							Board[i][j] = 3;
+						}
+						else if(Board[i][j] === 2 || Board[i][j] === 0)
+						{
+							if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) || (Math.abs(i - x) === 2 && Math.abs(j - y) === 1))
 							{
 								Board[i][j] = 2;
 							}
@@ -98,19 +113,20 @@ const Knight =
 
 	isValid(state) {
 		// Check if board is an array of arrays
-		const board = state.Board;
-		if (!(board instanceof Array)) return false;
-		const Boards = [];
-		for (const row of board) 
-		{
-			if (!(row instanceof Array)) return false;
-			Boards.push(row);
-		}
+		// const board = state.Board;
+		// if (!(board instanceof Array)) return false;
+		// const Boards = [];
+		// for (const row of board) 
+		// {
+			// if (!(row instanceof Array)) return false;
+			// Boards.push(row);
+		// }
+		const Board = state.Board;
 		// Locate the Knight, again
 		var p = -1, q = -1;
-		for(let i = 0; i < Boards.length; i++)
+		for(let i = 0; i < Board.length; i++)
 		{
-			for(let j = 0; j < Boards[i].length; j++)
+			for(let j = 0; j < Board[i].length; j++)
 			{
 				// Check if there are multiple Knights
 				if(p !== -1 || q !== -1) return false;
@@ -121,20 +137,21 @@ const Knight =
 				}
 			}
 		}
+		if(p === -1 && q === -1) return false;
 		// Check for the cases when the Knight can't move to every 2-cell or can move to a 0-cell
-		for(let i = 0; i < Boards.length; i++)
+		for(let i = 0; i < Board.length; i++)
 		{
-			for(let j = 0; j < Boards[i].length; j++)
+			for(let j = 0; j < Board[i].length; j++)
 			{
-				if(Boards[i][j] === 2)
+				if(Board[i][j] === 2)
 				{
-					if((Math.abs(i - x) === 1 && Math.abs(j - x) === 2) 
-						|| (Math.abs(i - x) === 2 && Math.abs(j - x) === 1)) ; else return false;
+					if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) 
+						|| (Math.abs(i - x) === 2 && Math.abs(j - y) === 1)) ; else return false;
 				}
 				if(Boards[i][j] === 0)
 				{
-					if((Math.abs(i - x) === 1 && Math.abs(j - x) === 2) 
-						|| (Math.abs(i - x) === 2 && Math.abs(j - x) === 1)) return false;
+					if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) 
+						|| (Math.abs(i - x) === 2 && Math.abs(j - y) === 1)) return false;
 				}
 			}
 		}

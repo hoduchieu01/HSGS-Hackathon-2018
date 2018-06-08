@@ -1,9 +1,27 @@
-th,
-td {
-    border: 1px solid black;
-    display: block;
+button0 {
+    
+    font-size: 50px;
+
 }
 
-tr {
-    display: table-cell;
+button1 {
+    font-size: 50px;
+}
+
+button1:hover {
+
+	background-color : #ff0000; /*red */
+  font-size: 50px;
+}
+
+button2 {
+
+	background-color : #00ff00; /* green */
+  font-size: 50px;
+}
+
+button3 {
+
+	background-color : #3366cc; /*blue*/
+  font-size: 50px;
 }

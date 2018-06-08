@@ -1,60 +1,54 @@
 import React from "react";
-import TowerOfHanoi from "./lib/knight.js";
+import Knight from "./lib/knight.js";
 
 import "./index.css";
 
-class Row extends React.Component {
-  render() {
-    const array = [];
-    for (let id = this.props.N - 1; id >= 0; --id) {
-      if (id < this.props.pile.length) {
-        array.push(<td key={id}>{this.props.pile[id]}</td>);
-      } else {
-        array.push(<td key={id}>X</td>);
-      }
-    }
-    console.log(array);
-    return <tr>{array}</tr>;
-  }
+class Chess extends React.Component
+{
+	render()
+	{
+		// Calculate the value of N and M
+		const N = this.props.state.Board.length;
+		const M = this.props.state.Board[0].length;
+		//console.log(K);
+		const moves = [];
+		for (let i = 0; i < N; i++)
+		{
+			const arr = [];
+			for(let j = 0; j < M; j++)
+			{
+				switch(this.props.state.Board[i][j])
+				{
+					case 0:
+						arr.push(<button0 onClick={() => this.props.move({ x: i , y: j } )}>&#9822;</button0>);
+						break;
+					case 1:
+						arr.push(<button1 onClick={() => this.props.move({ x: i , y: j } )}>&#9816;</button1>);
+						break;
+					case 2:
+						arr.push(<button2 onClick={() => this.props.move({ x: i , y: j } )}>&#9822;</button2>);
+						break;
+					case 3:
+						arr.push(<button3 onClick={() => this.props.move({ x: i , y: j } )}>&#9822;</button3>);
+						break;
+					default :
+						;
+				}
+			}
+			moves.push(
+			<div>
+				{arr}
+			</div>);
+		}
+		const err = this.props.error ? this.props.error.message : null;
+		return (
+		<div>
+			{moves}
+			<pre>{JSON.stringify(this.props)}</pre>
+			<pre>{JSON.stringify(err)}</pre>
+		</div>
+		);
+	}
 }
 
-class Board extends React.Component {
-  render() {
-    // Calculate the value of N
-    let N = 0;
-    for (let i = 0; i < 3; ++i) {
-      for (let j of this.props.state.piles[i]) {
-        N = Math.max(N, j);
-      }
-    }
-    const moves = [];
-    for (let i = 1; i <= 3; ++i)
-      for (let j = 1; j <= 3; ++j) {
-        moves.push(
-          <div>
-            <button onClick={() => this.props.move({ x: i, y: j })}>
-              Move {i} => {j}
-            </button>
-          </div>
-        );
-      }
-    const err = this.props.error ? this.props.error.message : null;
-    return (
-      <div>
-        <table style={{ border: "1px solid black" }}>
-          <tbody>
-            <Row N={N} pile={this.props.state.piles[0]} />
-            <Row N={N} pile={this.props.state.piles[1]} />
-            <Row N={N} pile={this.props.state.piles[2]} />
-          </tbody>
-        </table>
-        <hr />
-        {moves}
-        <pre>{JSON.stringify(this.props)}</pre>
-        <pre>{JSON.stringify(err)}</pre>
-      </div>
-    );
-  }
-}
-
-export default Board;
+export default Chess;
