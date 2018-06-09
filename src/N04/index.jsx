@@ -14,10 +14,9 @@ class Paragraph extends React.Component {
           Darja tính ra số học sinh sẽ tham dự. Không được dùng máy tính hãy giấy viết,
           chỉ được tính nhẩm trong đầu xem có bao nhiêu học sinh chọn hoạt động làm
           bánh? Và bao nhiêu học sinh tham gia điệu nhảy đường phố.
-          Biết rằng trường có tổng cộng n học sinh 
-          x% tổng số học sinh tham gia tuần lễ hoạt động ngoại khóa
-          Trong đó, y% tranh tài trong cuộc thi làm bánh
-		      z% đăng ký nhảy vũ điệu đường phố.
+          Biết rằng trường có tổng cộng {this.props.state.n} học sinh  {this.props.state.x} %  tổng số học sinh tham gia tuần lễ hoạt động ngoại khóa
+          Trong đó, {this.props.state.y} % tranh tài trong cuộc thi làm bánh
+		        {this.props.state.z} % đăng ký nhảy vũ điệu đường phố.
           </p1>
         </div>
       );
