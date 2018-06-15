@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 
-const Knight = 
+let Knight = 
 {
 	/**
 	* Initialize the default properties of the board, including:
@@ -10,23 +10,17 @@ const Knight =
 	*/
 	default(props = { row: 3, col: 4 }) 
 	{
-		const Board = new Array();
-		const x = Math.floor((Math.random() * props.row));
-		const y = Math.floor((Math.random() * props.col));
+		let Board = new Array();
+		let FirstMove = 1;
 		for (let i = 0 ; i < props.row; i++) 
 		{
 			Board[i] = new Array();
 			for(let j = 0; j < props.col; j++)
 			{
-				if(i === x && j === y) Board[i][j] = 1;
-				else if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) || (Math.abs(i - x) === 2 && Math.abs(j - y) === 1))
-				{
-					Board[i][j] = 2;
-				}
-				else Board[i][j] = 0;
+				Board[i][j] = 0;
 			}
 		}
-		return { Board };
+		return { Board, FirstMove };
 	},
 
 	actions: 
@@ -39,7 +33,8 @@ const Knight =
 				throw new Error("Your Knight is going outside the Board, sir!");
 			}
 			// Locate the Knight
-			const Board = state.Board.map(v => v.slice());
+			let Board = state.Board.map(v => v.slice());
+			let FirstMove = state.FirstMove;
 			//console.log(Board);
 			var p = -1, q = -1;
 			for(let i = 0; i < Board.length; i++)
@@ -111,80 +106,55 @@ const Knight =
 						throw new Error("Unknown Error has occurred, sir!");
 				}
 			}
-			return { Board };
+			return { Board , FirstMove};
 		},
 		async reset(state) 
 		{
-			const Board = state.Board.map(v => v.slice());
-			const x = Math.floor((Math.random() * Board.length));
-			const y = Math.floor((Math.random() * Board[0].length));
+			let Board = state.Board;
+			let FirstMove = state.FirstMove;
+			FirstMove = 1;
 			for (let i = 0 ; i < Board.length; i++) 
 			{
 				for(let j = 0; j < Board[i].length; j++)
 				{
-					if(i === x && j === y) Board[i][j] = 1;
-					else if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) || (Math.abs(i - x) === 2 && Math.abs(j - y) === 1))
+					Board[i][j] = 0;
+				}
+			}
+			return { Board , FirstMove};
+		},
+		async start(state, {x,y}) 
+		{
+			let Board = state.Board;
+			let FirstMove = state.FirstMove;
+			FirstMove = 0;
+			for (let i = 0 ; i < Board.length; i++) 
+			{
+				for(let j = 0; j < Board[i].length; j++)
+				{
+					if(i == x && j == y)
+					{
+						Board[i][j] = 1;
+					}
+					else if((Math.abs(i - x) == 2 && Math.abs(j - y) == 1) || (Math.abs(i - x) == 1 && Math.abs(j - y) == 2))
 					{
 						Board[i][j] = 2;
 					}
 					else Board[i][j] = 0;
 				}
 			}
-			return { Board };
-		}
+			return { Board , FirstMove};
+		},
 	},
 
 	isValid(state) {
-		// Check if board is an array of arrays
-		// const board = state.Board;
-		// if (!(board instanceof Array)) return false;
-		// const Boards = [];
-		// for (const row of board) 
-		// {
-			// if (!(row instanceof Array)) return false;
-			// Boards.push(row);
-		// }
-		const Board = state.Board;
-		// Locate the Knight, again
-		var p = -1, q = -1;
-		for(let i = 0; i < Board.length; i++)
-		{
-			for(let j = 0; j < Board[i].length; j++)
-			{
-				// Check if there are multiple Knights
-				if(p !== -1 || q !== -1) return false;
-				else
-				{
-					p = i;
-					q = j;
-				}
-			}
-		}
-		if(p === -1 && q === -1) return false;
-		// Check for the cases when the Knight can't move to every 2-cell or can move to a 0-cell
-		for(let i = 0; i < Board.length; i++)
-		{
-			for(let j = 0; j < Board[i].length; j++)
-			{
-				if(Board[i][j] === 2)
-				{
-					if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) 
-						|| (Math.abs(i - x) === 2 && Math.abs(j - y) === 1)) ; else return false;
-				}
-				if(Boards[i][j] === 0)
-				{
-					if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) 
-						|| (Math.abs(i - x) === 2 && Math.abs(j - y) === 1)) return false;
-				}
-			}
-		}
 		return true;
 	},
 
 	isEnding(state) 
 	{
-		const Board = state.Board;
-		const set = new Set();
+		let Board = state.Board;
+		let FirstMove = state.FirstMove;
+		let set = new Set();
 		for(let i = 0; i < Board.length; i++)
 		{
 			for(let j = 0; j < Board[i].length; j++)
@@ -196,7 +166,11 @@ const Knight =
 		if(set.has(2)) return null;
 		else
 		{
-			if(set.has(0)) return "lost"; else return "won";
+			if(FirstMove == 0) 
+			{
+				if(set.has(0)) return "lost"; else return "won";
+			}
+			else return null;
 		}
 	}
 };

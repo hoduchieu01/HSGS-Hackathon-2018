@@ -4,22 +4,28 @@ import Chess from "../src/S17/index.jsx";
 import Game from "../src/S17/lib/knight.js";
 import ReactGame from "react-gameboard/lib/component";
 import { number, withKnobs } from "@storybook/addon-knobs";
-
+import Guide from "../src/S17/guide.jsx";
 const KN = ReactGame(Game);
 
 storiesOf("Knight (S17)", module)
   .addDecorator(withKnobs)
-  .add("Easy", () => (
+  .add("Hướng dẫn", () => <Guide> </Guide>)
+  .add("Dễ", () => (
     <KN row={3} col={4}>
       <Chess />
     </KN>
   ))
-  .add("Impossible", () => (
+  .add("Trung bình", () => (
+    <KN row={5} col={5}>
+      <Chess />
+    </KN>
+  ))
+  .add("Khó", () => (
     <KN row={8} col={8}>
       <Chess />
     </KN>
   ))
-  .add("Custom", () => {
+  .add("Tùy chọn", () => {
     const options = {
       range: true,
       step: 1,

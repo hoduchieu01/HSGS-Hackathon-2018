@@ -1,25 +1,41 @@
 # HSGS Hackathon 2018
 
-## Đề bài
+  1. Reactjs
+  2. React-gameboard
+  3. Math-game
 
-// Link đề bài
+## Meomeo team
+  1. N04
+  2. N20
+  3. N36
+  4. N38
+  5. S17
+  6. S43
 
-## Viết như nào?
-
-1.  Học [React](https://reactjs.org)
-2.  Học [react-gameboard](https://gitlab.com/deltarena/react-gameboard)
-3.  Xem qua các [ví dụ](https://gitlab.com/deltarena/hsgs-hackathon-18/tree/master/examples)
-4.  Nhận bài
-5.  Fork repo này
-6.  ???
-7.  Profit!
-
-## Thử nghiệm code của bạn
-
-Hãy xem ví dụ để thêm sản phẩm vào [storybook](https://storybook.js.org) trong repo này.
-
-Để chạy Storybook:
-
+## Install 
+If you want to run this repository (my team)
+```bash
+git clone https://github.com/hoduchieu01/HSGS-Hackathon-2018.git
+```
+```bash
+yarn add https://gitlab.com/deltarena/react-gameboard
+```
+```bash
+npm install
+```
+```bash
+npm run storybook
+```
+If you want to run all project of hackathon
+```bash
+git clone https://gitlab.com/deltarena/hsgs-hackathon-18
+```
+```bash
+yarn add https://gitlab.com/deltarena/react-gameboard
+```
+```bash
+npm install
+```
 ```bash
 npm run storybook
 ```

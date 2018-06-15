@@ -3,38 +3,39 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 const n04 = 
 {
-	/**
-	* Initialize the default properties of the board, including:
-	* - Number of Rows and Columns
-	* - The initial state of the Board
-	*/
-	default(props = { n:300,x:5,y:5,z:5 }) 
+	// This Game is a joke. I have suicidal thought just by coding this.
+	// Plz send help
+	default(props = {Stepn : 1000 , Stepx : 50, Stepy : 20, Stepz : 20} ) 
 	{
-		const ans = 0;
-		const ans1 = 0;
-		let n = props.n;
-		let x = props.x;
-		let y = props.y;
-		let z = props.z;
-		return {n,x,y,z,ans,ans1};
-		/*
-		const x = Math.floor((Math.random() * props.row));
-		const y = Math.floor((Math.random() * props.col));
-		for (let i = 0 ; i < props.row; i++) 
+		function ucln(a, b)
 		{
-			Board[i] = new Array();
-			for(let j = 0; j < props.col; j++)
+			let  i = a % b;
+			while(i != 0)
 			{
-				if(i === x && j === y) Board[i][j] = 1;
-				else if((Math.abs(i - x) === 1 && Math.abs(j - y) === 2) || (Math.abs(i - x) === 2 && Math.abs(j - y) === 1))
-				{
-					Board[i][j] = 2;
-				}
-				else Board[i][j] = 0;
+				a = b;
+				b = i;
+				i = a % b;
 			}
+			return b;
 		}
-		return { Board };
-		*/
+		let ans = 0;
+		let ans1 = 0;
+		let n = (Math.floor(Math.random() * (Math.floor(10000/props.Stepn) - 1) + 1 ) ) * props.Stepn ;
+		let x = (Math.floor(Math.random() * (Math.floor(100/props.Stepx) - 1) + 1 ) ) * props.Stepx ; 
+		let x1 = 100;
+		let k = ucln(x,x1);
+		x = x / k; x1 = x1 / k;
+		let y = (Math.floor(Math.random() * (Math.floor(100/props.Stepy) - 1) + 1 ) ) * props.Stepy ;
+		let y1 = 100;
+		k = ucln(y,y1);
+		y = y / k; y1 = y1 / k;
+		let z = (Math.floor(Math.random() * (Math.floor(100/props.Stepz) - 1) + 1 ) ) * props.Stepz ;
+		let z1 = 100;
+		k = ucln(z,z1);
+		z = z / k; z1 = z1 / k;
+		
+		let FirstTry = 1;
+		return {n,x,x1,y,y1,z,z1,ans,ans1,FirstTry};
 	}, 
 	
 	actions: 
@@ -43,28 +44,22 @@ const n04 =
 		{
 			let n = state.n;
 			let x = state.x;
+			let x1 = state.x1;
 			let y = state.y;
+			let y1 = state.y1;
 			let z = state.z;
+			let z1 = state.z1;
 			let ans = state.ans;
 			let ans1 = state.ans1;
+			let FirstTry = state.FirstTry;
 			ans=a;
 			ans1=a1;
+			FirstTry = 0;
+			return {n,x,x1,y,y1,z,z1,ans,ans1,FirstTry};
 		}
-		//async reset(state) 
-		//{
-		//}
 	},
 
 	isValid(state) {
-		// Check if board is an array of arrays
-		// const board = state.Board;
-		// if (!(board instanceof Array)) return false;
-		// const Boards = [];
-		// for (const row of board) 
-		// {
-			// if (!(row instanceof Array)) return false;
-			// Boards.push(row);
-		// }
 		return true;
 	},
 
@@ -72,12 +67,14 @@ const n04 =
 	{
 		let n = state.n;
 		let x = state.x;
+		let x1 = state.x1;
 		let y = state.y;
+		let y1 = state.y1;
 		let z = state.z;
+		let z1 = state.z1;
 		let ans = state.ans;
 		let ans1 = state.ans1;
-
-		if(n*x/100*y/100 === ans && n*x/100*z/100 ===ans1) return "won";
+		if(Math.round((n * x * y) / (x1 * y1)) == ans && Math.round((n * x * z) / (x1 * z1)) == ans1 ) return "won";
 		else return null;
 		
 	}
